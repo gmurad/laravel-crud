@@ -12,13 +12,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
         $categories = Category::whereNull('parent_id')
         ->with('childrenCategories')
         ->get();
-        return view('categories.index', compact('categories'));
+        $includeProducts = $request->query('includeProducts', '0');
+        return view('categories.index', compact('categories', 'includeProducts'));
     }
 
     /**
@@ -53,9 +53,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category, Request $request)
     {
-        //
+        $includeProducts = $request->query('includeProducts', '0');
+        $includeChildren = $request->query('includeChildren', '0');
+        $products = $category->products()->get();
+        if($includeChildren) return view('categories.show', compact('includeChildren','category'));
+
+        if($includeProducts){
+            $categoryName = $category->name;
+            return view('categories.show', compact('products', 'categoryName'));
+        } else {
+            return view('categories.show', compact('products'));
+        }
     }
 
     /**

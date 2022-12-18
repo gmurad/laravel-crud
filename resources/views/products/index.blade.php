@@ -7,17 +7,10 @@
         <div class=" col-3 mt-3">
             <form action="{{ route('product.store') }}" method="post">
                 @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" id="name", name="name" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" name="price" id="price" step=0.01 class="form-control">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Add</button>
+            <x-form.field name="name" placeholder="Product Name"/>
+            <x-form.field type="number" name="price" placeholder="Price" step=0.01 class="my-3"/>
+            <x-form.field type="number" name="category_id" placeholder="Category Id" step=1 class="my-3"/>
+            <x-form.field type="submit" value="Add Product" class="btn btn-success"/>
             </form>
         </div>
 
@@ -43,11 +36,11 @@
                                     <td>{{ $product->price }}</td>
                                     <td>
                                         <div class="d-flex flex-row m-1">
-                                            <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary me-1" role="button">Edit</a>
+                                            <a href="{{ route('product.edit', $product->id) }}" class="btn btn-warning me-1" role="button">Edit</a>
                                             <form action="{{ route('product.destroy', $product->id) }}" method="POST" >
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <x-form.field type="submit" value="Delete" class="btn btn-danger"/>
                                             </form>
                                         </div>
                                     </td>

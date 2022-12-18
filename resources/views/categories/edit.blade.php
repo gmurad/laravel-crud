@@ -1,24 +1,20 @@
 @extends('layout')
 @section('content')
 
-<div class="card mt-3 col-3">
-    <div class="card-header">Edit Category</div>
-    <div class="card-body">
-        <form action="{{ route('category.update', $category->id) }}" method="post">
-            @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" id="name", name="name" value="{{ $category->name }}" class="form-control">
-        </div>
+<div class="container">
+    @include('categories.menu')
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Parent Id</label>
-            <input type="number" name="parent_id" id="parent_id" step=1 value="{{ $category->parent_id }}" class="form-control">
+    <div class="row">
+        <div class="col-3 mt-3 mb-4">
+            <form action="{{ route('category.update', $category->id) }}" method="post">
+                @csrf
+                <x-form.field name="name" placeholder="Category Name" value="{{ $category->name }}"/>
+                <x-form.field type="number" name="parent_id" placeholder="Parent Id" value="{{ $category->parent_id }}" class="my-3"/>
+                <x-form.field type="submit" value="Update Category" class="btn btn-primary"/>
+            </form>
         </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-        </form>
     </div>
+
 </div>
 
 @endsection

@@ -19,19 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/products', [ProductController::class, 'index'])->name('product.index'); // get a list of products
-//Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-Route::post('/products', [ProductController::class, 'store'])->name('product.store'); // create product
-Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('product.edit'); // product editing page
-Route::post('/products/{product}', [ProductController::class, 'update'])->name('product.update'); // save the edited product
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy'); // delete product
-
-
-//Route::resource('/products', ProductController::class);
+Route::controller(ProductController::class)->name('product.')->prefix('products')->group(function(){
+    // TODO have to change route names to plural
+    Route::get('/', 'index')->name('index'); // get a list of products
+    Route::post('/', 'store')->name('store'); // create product
+    Route::get('/{product}/edit', 'edit')->name('edit'); // product editing page
+    Route::post('/{product}', 'update')->name('update'); // save the edited product
+    Route::delete('/{product}', 'destroy')->name('destroy'); // delete product
+});
 
 Route::get('categories', [CategoryController::class, 'index'])->name('category.index'); // get a list of categories
 Route::post('categories', [CategoryController::class, 'store'])->name('category.store'); // create category
 Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit'); // category editing page
 Route::post('/categories/{category}', [CategoryController::class, 'update'])->name('category.update'); // save the edited category
-//Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy'); // delete category
-//Route::resource('/categories', CategoryController::class);
+
+Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show.category_with_products'); //get one category with nested products (получение одной категории c вложенными товарами)
+Route::get('/categories/{category}/products', [CategoryController::class, 'show'])->name('category.show.mix'); // (получение списка товаров из категории; получение списка товаров из категории и всех вложенных в неё категорий одним списком)

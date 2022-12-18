@@ -38,7 +38,8 @@ class ProductController extends Controller
     {
         $data = request()->validate([
             'name' => 'string',
-            'price' => 'numeric'
+            'price' => 'numeric',
+            'category_id' => 'numeric',
         ]);
         Product::create($data);
         return redirect()->route('product.index');
@@ -78,7 +79,8 @@ class ProductController extends Controller
     {
         $data = request()->validate([
             'name' => 'string',
-            'price' => 'numeric'
+            'price' => 'numeric',
+            'category_id' => 'numeric'
         ]);
         $product->update($data);
         return redirect()->route('product.index');
